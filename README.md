@@ -22,10 +22,14 @@ substitutions:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  min_version: 2025.5.0
+  min_version: 2024.11.0
   name_add_mac_suffix: false
   platformio_options:
     board_build.flash_mode: dio
+  on_boot:
+    priority: -100
+    then:
+      - lambda: id(tas5805m_dac).refresh_eq_gains();
 
 esp32:
   board: mhetesp32minikit
@@ -92,11 +96,12 @@ audio_dac:
   - platform: tas5805m
     id: tas5805m_dac
     enable_pin: GPIO33
-    analog_gain: -9db
+    analog_gain: -5db
 
 i2s_audio:
   i2s_lrclk_pin: GPIO25
   i2s_bclk_pin: GPIO26
+
 snapclient:
   hostname: !secret snapserver_ip
   # port: 1704  # default
@@ -157,14 +162,6 @@ switch:
     restore_mode: RESTORE_DEFAULT_ON
     turn_on_action:
       - lambda: id(tas5805m_dac).set_eq_on();
-      - if:
-          condition:
-            - lambda: return (!id(eq_gain_refreshed));
-          then:
-            - delay: 0.75s
-            - lambda: |-
-                id(tas5805m_dac).refresh_eq_gains();
-                id(eq_gain_refreshed) = true;
-
     turn_off_action:
       - lambda: id(tas5805m_dac).set_eq_off();
+```
