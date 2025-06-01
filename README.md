@@ -22,15 +22,11 @@ substitutions:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  min_version: 2024.11.0
+  min_version: 2025.5.0
   name_add_mac_suffix: false
   platformio_options:
     board_build.flash_mode: dio
-  on_boot:
-    priority: -100
-    then:
-      - lambda: id(tas5805m_dac).refresh_eq_gains();
-
+  
 esp32:
   board: mhetesp32minikit
   flash_size: 8MB
@@ -159,9 +155,16 @@ switch:
     name: Enable EQ Control
     id: enable_eq_control
     optimistic: true
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: ALWAYS_OFF
     turn_on_action:
       - lambda: id(tas5805m_dac).set_eq_on();
+      - if:
+          condition:
+            - lambda: return (!id(eq_gain_refreshed));
+          then:
+            - lambda: |-
+                id(tas5805m_dac).refresh_eq_gains();
+                id(eq_gain_refreshed) = true;
     turn_off_action:
       - lambda: id(tas5805m_dac).set_eq_off();
 ```
