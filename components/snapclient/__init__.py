@@ -38,7 +38,7 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(): cv.declare_id(SnapClientComponent),
             cv.Optional(CONF_NAME): cv.string,
-            cv.Optional(CONF_HOSTNAME, default=NULL): cv.one_of( NULL, cv.domain),
+            cv.Optional(CONF_HOSTNAME, default=0): cv.one_of( 0, cv.domain),
             cv.Optional(CONF_PORT, default=1704): cv.port,
             cv.Required(CONF_I2S_DOUT_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_MUTE_PIN): pins.gpio_output_pin_schema,
@@ -101,7 +101,7 @@ async def to_code(config):
         config[CONF_NAME] = CORE.name or ""
     # cg.add_build_flag("-DCONFIG_SNAPSERVER_HOST='"+str(config[CONF_HOSTNAME])+"'")
     # cg.add_build_flag("-DCONFIG_SNAPSERVER_PORT="+str(config[CONF_PORT]))
-    if config[CONF_HOSTNAME] == NULL:
+    if config[CONF_HOSTNAME] == 0:
         cg.add_build_flag("-DCONFIG_SNAPCLIENT_USE_MDNS=1")
     else:
         cg.add_build_flag("-DCONFIG_SNAPCLIENT_USE_MDNS=0")
@@ -112,7 +112,8 @@ async def to_code(config):
     await cg.register_component(var, config)
     await register_i2s_audio_component(var, config)
     cg.add(var.set_dout_pin(config[CONF_I2S_DOUT_PIN]))
-    cg.add(var.set_config(config[CONF_NAME], config[CONF_HOSTNAME], config[CONF_PORT]))
+    if config[CONF_HOSTNAME] != 0:
+        cg.add(var.set_config(config[CONF_NAME], config[CONF_HOSTNAME], config[CONF_PORT]))
     if CONF_MUTE_PIN in config:
         pin = await cg.gpio_pin_expression(config[CONF_MUTE_PIN])
         cg.add(var.set_mute_pin(pin))
