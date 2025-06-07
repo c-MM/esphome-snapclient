@@ -506,21 +506,14 @@ void http_get_task(void *pvParameters) {
     }
 
     mdns_ip_addr_t *a = NULL;
-    while (r) {
+    while (r && !a) {
       a = r->addr;
-      while (a) {
-	if (a->addr.type == MDNS_IP_PROTOCOL_V6) {
-	  ESP_LOGI(TAG, "skipping ipv6: %s", IPV62STR(a->addr.u_addr.ip6));
-	  a = a->next;
-	} else {
-	  ESP_LOGI(TAG, "found ipv4: %s", IP2STR(&(a->addr.u_addr.ip4)));
-	  break;
-        }
+      while (a && a->addr.type == MDNS_IP_PROTOCOL_V6) {
+	ESP_LOGW(TAG, "skipping: %s", IPV62STR(a->addr.u_addr.ip6));
+	a = a->next;
       }
-      if (a)
-        break;
-      else
-        r = r->next;
+      if (!a)
+      	r = r->next;
     }
 
     if (a) {
