@@ -433,7 +433,8 @@ void http_get_task(void *pvParameters) {
   // create a timer to send time sync messages every x µs
   esp_timer_create(&tSyncArgs, &timeSyncMessageTimer);
 
-#if CONFIG_SNAPCLIENT_USE_MDNS
+//#if CONFIG_SNAPCLIENT_USE_MDNS
+#if 1
   ESP_LOGI(TAG, "Enable mdns");
   mdns_init();
 #endif
@@ -484,7 +485,8 @@ void http_get_task(void *pvParameters) {
       }
     }
 
-#if SNAPCAST_SERVER_USE_MDNS
+//#if SNAPCAST_SERVER_USE_MDNS
+#if 1
     // Find snapcast server
     // Connect to first snapcast server found
     r = NULL;
