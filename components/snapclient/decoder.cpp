@@ -507,7 +507,7 @@ void http_get_task(void *pvParameters) {
 
     mdns_ip_addr_t *a = r->addr;
     while (a) {
-      if(a->addr.type == MDNS_IP_PROTOCOL_V4) {
+      if(a->addr.type == MDNS_IP_PROTOCOL_V4)
 	break;
       else
 	a = a->next;
