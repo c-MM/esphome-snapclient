@@ -38,7 +38,7 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(): cv.declare_id(SnapClientComponent),
             cv.Optional(CONF_NAME): cv.string,
-            cv.Optional(CONF_HOSTNAME, default=""): cv.one_of( "", cv.domain),
+            cv.Optional(CONF_HOSTNAME, default=0): cv.one_of( 0, cv.domain),
             cv.Optional(CONF_PORT, default=1704): cv.port,
             cv.Required(CONF_I2S_DOUT_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_MUTE_PIN): pins.gpio_output_pin_schema,
