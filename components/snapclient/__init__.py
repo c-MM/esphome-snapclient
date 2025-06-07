@@ -38,7 +38,7 @@ CONFIG_SCHEMA = cv.All(
         {
             cv.GenerateID(): cv.declare_id(SnapClientComponent),
             cv.Optional(CONF_NAME): cv.string,
-            cv.Optional(CONF_HOSTNAME, default=""): cv.one_of( "", cv.domain),
+            cv.Optional(CONF_HOSTNAME, default=NULL): cv.one_of( NULL, cv.domain),
             cv.Optional(CONF_PORT, default=1704): cv.port,
             cv.Required(CONF_I2S_DOUT_PIN): pins.internal_gpio_output_pin_number,
             cv.Optional(CONF_MUTE_PIN): pins.gpio_output_pin_schema,
@@ -101,7 +101,7 @@ async def to_code(config):
         config[CONF_NAME] = CORE.name or ""
     # cg.add_build_flag("-DCONFIG_SNAPSERVER_HOST='"+str(config[CONF_HOSTNAME])+"'")
     # cg.add_build_flag("-DCONFIG_SNAPSERVER_PORT="+str(config[CONF_PORT]))
-    if config[CONF_HOSTNAME] == "":
+    if config[CONF_HOSTNAME] == NULL:
         cg.add_build_flag("-DCONFIG_SNAPCLIENT_USE_MDNS=1")
     else:
         cg.add_build_flag("-DCONFIG_SNAPCLIENT_USE_MDNS=0")
