@@ -101,7 +101,7 @@ async def to_code(config):
         config[CONF_NAME] = CORE.name or ""
     # cg.add_build_flag("-DCONFIG_SNAPSERVER_HOST='"+str(config[CONF_HOSTNAME])+"'")
     # cg.add_build_flag("-DCONFIG_SNAPSERVER_PORT="+str(config[CONF_PORT]))
-    if config[CONF_HOSTNAME] == "":
+    if config[CONF_HOSTNAME] == 0:
         cg.add_build_flag("-DCONFIG_SNAPCLIENT_USE_MDNS=1")
     else:
         cg.add_build_flag("-DCONFIG_SNAPCLIENT_USE_MDNS=0")
