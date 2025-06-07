@@ -505,24 +505,7 @@ void http_get_task(void *pvParameters) {
       }
     }
 
-    mdns_result_t *r1 = r;
-    mdns_ip_addr_t *a = NULL;
-    while(r1) {
-      a = r1->addr;
-      while(a) {
-        if(a->addr.type == MDNS_IP_PROTOCOL_V6) {
-          ESP_LOGI(TAG, "skipping IPv6 result");
-				  a = a->next;
-        } else {
-          ESP_LOGI(TAG, "found IPv4 result");
-					break;
-				}
-			}
-			if (a)
-				break;
-			else
-				r1 = r1->next;
-		}
+    mdns_ip_addr_t *a = r->addr;
 
     if (a) {
       ip_addr_copy(remote_ip, (a->addr));
