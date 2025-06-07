@@ -504,21 +504,14 @@ void http_get_task(void *pvParameters) {
         vTaskDelay(pdMS_TO_TICKS(1000));
       }
     }
-    mdns_ip_addr_t *a = r->addr;
-    while (r) {
-      while (a) {
-        if(a->addr.type == MDNS_IP_PROTOCOL_V6) {
-	  ESP_LOGI(TAG, "skipping %s", IPV62STR(a->addr.u_addr.ip6));
-	  a = a->next;
-        }
-      }
-      if (a)
-        break;
-      r = r->next;
-      if (r)
-        a = r->addr;
-    }
 
+    mdns_ip_addr_t *a = r->addr;
+    while (a) {
+      if(a->addr.type == MDNS_IP_PROTOCOL_V4)
+	break;
+      else
+	a = a->next;
+    }
     if (a) {
       ip_addr_copy(remote_ip, (a->addr));
       remote_ip.type = a->addr.type;
