@@ -493,7 +493,7 @@ void http_get_task(void *pvParameters) {
     err = 0;
     while (!r || err) {
       ESP_LOGI(TAG, "Lookup snapcast service on network");
-      esp_err_t err = mdns_query_ptr("_snapcast", "_tcp", 5000, 20, &r);
+      esp_err_t err = mdns_query_ptr("_snapcast", "_tcp", 3000, 20, &r);
       if (err) {
         ESP_LOGE(TAG, "Query Failed");
         vTaskDelay(pdMS_TO_TICKS(1000));
@@ -509,11 +509,9 @@ void http_get_task(void *pvParameters) {
     while (r && !a) {
       a = r->addr;
       while (a && a->addr.type == MDNS_IP_PROTOCOL_V6) {
-	ESP_LOGW(TAG, "skipping: %s", IPV62STR(a->addr.u_addr.ip6));
 	a = a->next;
       }
-      if (!a)
-      	r = r->next;
+      r = r->next;
     }
 
     if (a) {
