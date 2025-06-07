@@ -504,10 +504,8 @@ void http_get_task(void *pvParameters) {
         vTaskDelay(pdMS_TO_TICKS(1000));
       }
     }
-
-    mdns_ip_addr_t *a;
+    mdns_ip_addr_t *a = r->addr;
     while (r) {
-      a = r->addr;
       while (a) {
         if(a->addr.type == MDNS_IP_PROTOCOL_V6) {
 	  ESP_LOGI(TAG, "skipping %s", IPV62STR(a->addr.u_addr.ip6));
@@ -517,7 +515,8 @@ void http_get_task(void *pvParameters) {
       if (a)
         break;
       r = r->next;
-      a = NULL;
+      if (r)
+        a = r->addr;
     }
 
     if (a) {
