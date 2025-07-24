@@ -53,7 +53,7 @@ CONFIG_SCHEMA = cv.All(
 
 async def to_code(config):
     add_idf_component(
-        name="espressif__esp-dsp",
+        name="espressif/esp-dsp",
         repo="https://github.com/espressif/esp-dsp.git",
     )
     add_idf_component(
