@@ -52,15 +52,8 @@ CONFIG_SCHEMA = cv.All(
 
 
 async def to_code(config):
-    add_idf_component(
-        name="espressif/esp-dsp",
-        repo="https://github.com/espressif/esp-dsp.git",
-    )
-    add_idf_component(
-        name="mdns",
-        repo="https://github.com/espressif/esp-protocols.git",
-        path="components/mdns",
-    )
+    add_idf_component(name="espressif/esp-dsp", ref=">1.5.0")
+    add_idf_component(name="espressif/mdns", ref=">1.2.3")
     add_idf_component(
         name="snapcast",
         # repo="..",  # todo: replace by repo

@@ -6,10 +6,11 @@
 #include "esphome/core/defines.h"
 #include "esphome/core/component.h"
 #include "esphome/components/i2s_audio/i2s_audio.h"
-#ifdef USE_AUDIO_DAC
-  #include "esphome/components/audio_dac/audio_dac.h"
-#endif
 #include "esphome/core/gpio.h"
+
+#ifdef USE_AUDIO_DAC
+#include "esphome/components/audio_dac/audio_dac.h"
+#endif
 
 namespace esphome {
 namespace snapclient {
