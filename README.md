@@ -8,7 +8,7 @@ It is just for easy build in the esphome web interface.
 It is based on the works from:
  - @CarlosDerSeher [esp snapclient](https://github.com/CarlosDerSeher/snapclient)
  - @luar123 [esphome snapclient](https://github.com/esphome/esphome/pull/8350)
- - @mrtoy-me [tas5805m driver](https://github.com/mrtoy-me/esphome-components-test)
+ - @mrtoy-me [tas5805m driver](https://github.com/mrtoy-me/esphome-tas5805m)
  - @anabolyc [esp32 audio hardware](https://github.com/sonocotta/esp32-audio-dock)
 
 
