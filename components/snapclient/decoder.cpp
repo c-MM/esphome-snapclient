@@ -3,7 +3,7 @@
 #ifndef USE_I2S_LEGACY
 
 #include "decoder.h"
-#include "esp_log.h"
+#include "esphome/core/log.h"
 #include "esp_mac.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
@@ -530,7 +530,7 @@ void http_get_task(void *pvParameters) {
     inet_pton(AF_INET, SNAPCAST_SERVER_HOST, &(remote_ip.u_addr.ip4.addr));
     remote_ip.type = IPADDR_TYPE_V4;
 #else
-    if ( !(inet_pton(AF_INET, SNAPCAST_SERVER_HOST, &remote_ip) == 1)) {
+    if (!(inet_pton(AF_INET, SNAPCAST_SERVER_HOST, &remote_ip) == 1)) {
       ESP_LOGE(TAG, "invalid snapcast server ip");
       return;
     }
